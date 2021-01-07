@@ -1,0 +1,111 @@
+---
+title: "Lab 1"
+author: "Bertrand Wilden"
+institute: "UCSD"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+<style type="text/css">
+.remark-slide-content {
+    font-size: 32px;
+    padding: 1em 4em 1em 2em;
+}
+</style>
+
+# Plan for Today
+
+
+1. Introduction
+
+--
+
+2. Workflow in grad school, R and/or Stata
+
+--
+
+3. Getting comfortable with RStudio and RMarkdown
+
+--
+
+4. Some data + plots in R
+
+--
+
+5. Some data + plots in Stata
+
+
+---
+
+# About Me
+
+
++ UCSD undgergrad, now 2nd Year Phd
+
+--
+
++ Methods/American
+
+--
+
++ Self-identified Bayesian
+
+--
+
++ Living proof that everyone can learn this!
+
+
+---
+
+#Quantitative Workflow
+
++ Using your research tools *efficiently*, and in a *principled* manner
+
+--
+
++ **Efficient Workflow:** Am I getting things done quickly and effectively? (i.e. is this fun??)
+
+--
+
++ **Principled Workflow:** Am I taking the right steps to produce *good* science? 
+
+--
+
+  + Reproducibility
+  + Transparency
+  
+---
+
+#Which tools?
+
+.center[![Stat Language Comparison](figs/stats-languages.jpeg)]
+
+---
+
+#R vs Stata
+
+.pull-left[
+**R**
++ All-in-one package
++ Other Methods courses
++ Desirable skill outside academia
++ Vibrant community
+]
+
+--
+
+.pull-right[
+**Stata**
++ Easier to learn if starting from zero
++ Collaboration potential?
++ Replication potential?
+]
+
