@@ -24,8 +24,8 @@ library(emo)
     font-size: 32px;
     padding: 1em 4em 1em 2em;
 }
-.image-60 img {
-  width: 35%;
+.pancake-adj img {
+  width: 80%;
 }
 .footnote-size {
   font-size: 20px;
@@ -57,13 +57,15 @@ library(emo)
 
 #Burnt Pancakes
 
-These are your options<sup>1</sup>
+These are your options*
 
-.image-60[![pancake options](pics/pancakes.jpg)]
+.center[
+.pancake-adj[![pancake options](pics/pancakes.jpg)]
+]
 
 .footnote-size[
 .footnote[
-[1] Example adapted from Statistical Rethinking 2nd ed.
+[*] Example adapted from Statistical Rethinking 2nd ed.
 ]
 ]
 
