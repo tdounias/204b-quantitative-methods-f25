@@ -90,7 +90,7 @@ output:
 
 #Which tools?
 
-.center[![Stat Language Comparison](figs/stats-languages.jpeg)]
+.center[![Stat Language Comparison](pics/stats-languages.jpeg)]
 
 ---
 
