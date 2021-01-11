@@ -1,0 +1,120 @@
+---
+title: "Lab1"
+author: "Bertrand Wilden"
+date: "1/8/2021"
+output: pdf_document
+---
+
+# This is a big title!
+## This one is a little smaller
+### Wow even smaller
+
+Typing plain text is easy! Just make sure you are not in a code chunk and go wild! Blah blah blah blah blah.
+
+Make a new paragraph by leaving an empty line between your text.
+
+Lists are easy too! Why I love RMarkdown:
+
+  1. I can reproduce all my analysis in one document
+  2. No unecessary frills
+  3. Excellent citation integration with Zotero
+
+It even does math. This is an inline equation: $Y_i = \beta_0 + \beta_1X_i + \epsilon_i$. This is a standalone equation:
+$$
+Y_i = \beta_0 + \beta_1X_i + \epsilon_i
+$$
+
+But the real fun begins when we start including R code chunks and output graphs/tables directly in our output pdf document.
+
+```{r message = FALSE}
+library(here)
+library(readr)
+library(ggplot2)
+library(dplyr)
+
+lifeexp <- read_csv(here("data", "lifeexp.csv"))
+
+head(lifeexp)
+```
+
+This chunk loads in the packages we need and loads the country life expectancy data set. The `head()` command displays the first few rows of the data set so we have an idea about what we're working with. We set `message = FALSE` in the chunk options to prevent the `library()` commands spamming our pdf with extra messages. 
+
+Now lets make some graphs!
+
+## Histograms
+
+```{r warning=FALSE}
+# Pipe off from our original data set
+lifeexp %>% 
+  # Create an empty ggplot object. x = lexp means we will be displaying 
+  # the lexp variable
+  ggplot(aes(x = lexp)) +
+  # geom_* specifies the plot type. Histogram in this case
+  geom_histogram()
+```
+
+It looks okay but ggplot has a lot more options for customization. Go crazy!
+
+```{r warning=FALSE}
+lifeexp %>% 
+  ggplot(aes(x = lexp)) +
+  geom_histogram(color = "white", fill = "violetred4") + 
+  theme_minimal() +
+  labs(x = "Life Expectancy (years)", y = "Count", 
+       title = "Distribution of Life Expectancy across Countries")
+```
+
+## Box Plots
+
+```{r}
+lifeexp %>% 
+  ggplot(aes(x = lexp)) +
+  geom_boxplot(fill = "seagreen") + 
+  theme_minimal() +
+  labs(x = "Life Expectancy (years)")
+```
+
+```{r}
+lifeexp %>% 
+  ggplot(aes(x = lexp, color = region)) +
+  geom_boxplot() + 
+  theme_minimal() +
+  labs(x = "Life Expectancy (years)")
+```
+
+## Scatter Plots
+
+```{r warning=FALSE}
+lifeexp %>% 
+  ggplot(aes(x = gnppc, y = lexp)) +
+  geom_point(color = "steelblue") +
+  theme_minimal() +
+  labs(x = "GNP Per Capita", y = "Life Expectancy (years)")
+```
+
+```{r warning=FALSE}
+lifeexp %>% 
+  ggplot(aes(x = gnppc, y = lexp)) +
+  geom_point(color = "steelblue", size = 10, alpha = 0.7) +
+  theme_minimal() +
+  labs(x = "GNP Per Capita", y = "Life Expectancy (years)")
+```
+
+```{r warning=FALSE}
+lifeexp %>% 
+  ggplot(aes(x = log(gnppc), y = lexp)) +
+  geom_point(color = "steelblue", size = 10, alpha = 0.7) +
+  geom_smooth(method = lm, color = "violetred4") +
+  theme_minimal() +
+  labs(x = "log GNP Per Capita", y = "Life Expectancy (years)")
+```
+
+```{r warning=FALSE}
+lifeexp %>% 
+  ggplot(aes(x = log(gnppc), y = lexp, label = country)) +
+  geom_point(color = "white") +
+  geom_text(labels = lifeexp$country, size = 3) +
+  theme_minimal() +
+  labs(x = "log GNP Per Capita", y = "Life Expectancy (years)")
+```
+
