@@ -383,12 +383,14 @@ sd(means_outcomes)
 hist(means_outcomes, freq = F)
 curve(dnorm(x, mean(means_outcomes), sd(means_outcomes)), add = T, lwd = 3)
 
+
 # The replicate() function is useful if we just want to run the same function over and over N times
 pets <- c("dog", "cat", "monkey", "parrot")
 generate_random_pet <- function() {  # Note: functions do not need any arguments!
   rand_pet <- sample(pets, 1)
 }
 replicate(10, generate_random_pet())
+
 
 # Pancake problem!!!
 # simulate a pancake and return randomly ordered sides
