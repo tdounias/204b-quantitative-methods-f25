@@ -207,7 +207,7 @@ convet_temp(75, scale = "fahrenheit") # error!
 
 # The parts of a for loop:
 # i is an arbitrary variable name that gets defined when we begin our loop
-# We use "i" commonly because it is the notation for indices in math, but this variable can be anything!
+# We use "i" commonly because it is the notation for indexes in math, but this variable can be anything!
 # 1:10 creates a sequence of integers from 1 to 10 (inclusive)
 # This defines the values over which we will iterate when running the loop
 for (i in 1:10) {    
@@ -227,24 +227,24 @@ for (pet in pets) {
 }
 
 # We can next loops inside each other (!!!)
-# Be careful -- combinations get big fast
+# Be careful -- permutations get big fast
 for (i in 1:3) {
-  for (k in 1:5) {
+  for (k in 1:3) {
     print(k)
   }
 }
 
 # The previous loops just did their thing but didn't give us anything useful after running
-# Very often we want to set up a "container" vector to store the results from each loop
-# This is where indices become super useful
-container <- c() # empty vector
+# Very often we want to set up a "container" object to store the results from each loop
+# This is where indexes become super useful
+container <- c()          # empty vector
 for (i in 1:100) {
   container[i] <- i + 5
 }
 container
 
 # This also works, but is less efficient because R needs to rewrite the entire vector every iteration!
-# Sometimes it can be useful
+# Sometimes this method can be useful though
 container <- c()
 for (i in 1:100) {
   container <- c(container, i + 5)
@@ -294,11 +294,11 @@ print(paste0("The best pet is ", best_pet))
 # What if we want to sample from known distributions, such as the Normal or Poisson?
 # R has pdf/pmf sampling functions that mirror the syntax of the distribution functions we used earlier (dnorm and pnorm)
 
-rnorm(n = 1)                  # 1 draw from the distribution X ~ N(0, 1)
-rnorm(50, mean = 20, sd = 2)  # 50 draws from the distribution X ~ N(20, 2^2)
-rpois(1000, lambda=3)         # 1000 draws from the poisson distribution with lambda=3
-rbinom(1, 1, 0.5)             # 1 draw from a binomial distribution with p=0.5 and 1 event (Bernoulli distribution)
-rbinom(100, 10, 0.75)         # 100 draws from binomial distribution with p=0.75 and 10 events
+rnorm(n = 1)                     # 1 draw from the distribution X ~ N(0, 1)
+rnorm(50, mean = 20, sd = 2)     # 50 draws from the distribution X ~ N(20, 2^2)
+rpois(1000, lambda = 3)          # 1000 draws from the poisson distribution with lambda=3
+rbinom(1, size = 1, prob = 0.5)  # 1 draw from a binomial distribution with p=0.5 and 1 event (Bernoulli distribution)
+rbinom(100, 10, 0.75)            # 100 draws from binomial distribution with p=0.75 and 10 events
 
 # Visualizing these samples with histograms is an alternative to curve() with density functions
 hist(rnorm(10000))
@@ -308,6 +308,9 @@ hist(rbinom(10000, 5, 0.75))
 
 ###################
 ### Simulations ###
+
+# Simulations help us understand how our statistical procedures work!
+# They also help us solve very hard/impossible math problems
 
 # A section of POLI 30 (our undergraduate introductory methods course) starts with 27 students.
 # The probability that a given student fails POLI 30 is 0.08, and outcomes for two students are independent.
@@ -321,10 +324,10 @@ mean(passed <= 27 - 4)                       # Calculates the proportion of thes
 
 # You roll 2 die, and I roll one dice. What is the probability that the sum of the 2 numbers that you roll
 # is larger than the one number that I roll?
-n <- 1000000
-d1 <- sample(1:6, n, replace = T)
-d2 <- sample(1:6, n, replace = T)
-d3 <- sample(1:6, n, replace = T)
+N <- 1000000
+d1 <- sample(1:6, N, replace = T)
+d2 <- sample(1:6, N, replace = T)
+d3 <- sample(1:6, N, replace = T)
 
 d1[1] + d2[1] > d3[1]
 d1[39] + d2[39] > d3[39]
@@ -347,7 +350,7 @@ hist(d1 + d2 - d3)
 # What is the probability that you will have to flip the coin more than three times?
 N <- 100000
 results <- rep(NA, N)
-for(i in 1:N){
+for (i in 1:N) {
   flips <- rbinom(100, 1, .5)
   first_heads <- min(which(flips == 1))
   results[i] <- first_heads
@@ -436,3 +439,5 @@ x1 <- seq(-4, -1.96, by=.01)
 polygon(c(x1, rev(x1)), c(dnorm(x1), rep(0, length(x1))), col="blue")
 x2 <- seq(1.96, 4, by=.01)
 polygon(c(x2, rev(x2)), c(dnorm(x2), rep(0, length(x2))), col="blue")
+
+
