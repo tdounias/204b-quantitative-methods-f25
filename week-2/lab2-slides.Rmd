@@ -43,11 +43,11 @@ library(emo)
 
 --
 
-- Simulations in R `r ji("nervous")`
+- Functions in R `r ji("nervous")`
 
 --
 
-- Functions in R `r ji("nervous")`
+- Simulations in R `r ji("cool")`
 
 --
 
