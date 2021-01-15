@@ -186,15 +186,17 @@ hist(x, br = 3)
 hist(x_z, br = 3)
 
 # It can turn any distribution into a Normal(0, 1)?
-x_draws <- runif(1000, 0, 100)
+x_draws <- runif(10000, 2, 6)
 z <- (x_draws - mean(x_draws)) / sd(x_draws)
 
 mean(x_draws)
 mean(z)
 var(x_draws)
 var(z)
-hist(x_draws)
-hist(z)
+
+par(mfrow = c(2, 1))
+hist(x_draws, br = 20, col = "seagreen", xlim = c(-3, 7))
+hist(z, br = 20, col = "gold", xlim = c(-3, 7))
 
 # What is the point of all this?
 # Frequently used in regression contexts. We will discuss this later
@@ -209,6 +211,7 @@ sd_height <- 10
 
 # Creating a z statistic
 se <- sd_height/sqrt(length(nba_heights))
+
 z <- (mean(nba_heights) - avg_height) / se
 z
 
@@ -218,6 +221,8 @@ z
 curve(dnorm, lwd = 2, xlim = c(-6,  6), ylab = "Density", main = "Normal PDF")
 abline(v = z, lwd = 2, col = "red")
 
+
+2 * (1 - pnorm(mean(nba_heights), avg_height, sd_height))
 
 ## ---------------------------------------------------------------------- ##
 ##                                  Break                                 ##
