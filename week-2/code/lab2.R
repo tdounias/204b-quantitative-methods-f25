@@ -48,6 +48,7 @@ dbinom(2, 5, 0.9)
 
 ### Exercise 1:
 # What is the probability of getting exactly one head if we flip a fair coin 7 times?
+dbinom(1, 7, 0.5)
 
 
 # Each commonly-used distribution has its own version of these functions
@@ -68,7 +69,7 @@ curve(dbeta(x, shape1=1, shape2=2), lwd=2, xlim=c(0,  1), xlab="p", main="Beta(1
 
 ## Cumulative Density ##
 # Cumulative density function for the Normal distribution: pnorm
-curve(pnorm, lwd = 2, xlim = c(-3,  3), ylab = "Density", xlab = "X", main = "Normal CDF")
+curve(pnorm, lwd = 2, xlim = c(-3,  3), ylab = "Probability", xlab = "X", main = "Normal CDF")
 
 # The CDF tells you the probability below (to the left of) some threshold on the PDF
 pnorm(0)
@@ -109,8 +110,8 @@ pnorm(4, 4, 2) - pnorm(2, 4, 2)
 
 ### Exercise 2:
 # Assuming a standard normal distribution (X ~ N(0, 1)), calculate the 
-# probability that 0 < X < 1
-
+# probability that 0 < X <= 1
+a <- pnorm(1) - pnorm(0)
 
 
 ### Exercise 3: Connecting pbimon to dbinom
@@ -133,9 +134,8 @@ qnorm(0.75)
 qnorm(0.25)
 
 # What is the 95% interval around the mean of N(20, 3^2)
-qnorm(0.05, 20, 3)
-qnorm(.95, 20, 3)
-
+qnorm(0.05, mean = 20, sd = 3)
+qnorm(p = .95, 20, 3)
 
 
 ## Sampling from Distributions ##
@@ -149,16 +149,16 @@ rnorm(50, mean = 20, sd = 2)     # 50 draws from the distribution X ~ N(20, 2^2)
 # Lists of numbers are hard to look at! Let's graph instead
 hist(rnorm(10), col = "steelblue", xlab = "X")
 hist(rnorm(100), col = "steelblue", xlab = "X")
-hist(rnorm(1e7), col = "steelblue", xlab = "X")
+hist(rnorm(1e7), col = "steelblue", xlab = "X", br = 50)
 
 # Binomial time
 rbinom(100, 1, 0.5)      # 100 flips of 1 coin
-rbinom(100, 5, 0.5)      # 100 flips of 5 coins. Values are counts of "success"
+rbinom(100, size = 5, prob = 0.5)      # 100 flips of 5 coins. Values are counts of "success"
 
 hist(rbinom(10, 1, 0.5), col = "steelblue", xlab = "X")
 hist(rbinom(10000, 1, 0.5), col = "steelblue", xlab = "X")
 hist(rbinom(10, 5, 0.7), col = "steelblue", xlab = "X")
-hist(rbinom(10000, 5, 0.7), col = "steelblue", xlab = "X")
+hist(rbinom(10000, 5, 0.7), col = "steelblue", xlab = "X", br = 20)
 
 # Poisson poisson poisson
 rpois(1000, lambda = 4)          # 1000 draws from the poisson distribution with lambda=4
@@ -222,7 +222,9 @@ curve(dnorm, lwd = 2, xlim = c(-6,  6), ylab = "Density", main = "Normal PDF")
 abline(v = z, lwd = 2, col = "red")
 
 
-2 * (1 - pnorm(mean(nba_heights), avg_height, sd_height))
+# Why doesn't this work?
+2 * (1 - pnorm(mean(nba_heights), mean = avg_height, sd = sd_height))
+
 
 ## ---------------------------------------------------------------------- ##
 ##                                  Break                                 ##
@@ -264,8 +266,8 @@ num_vec[1] <- 7
 num_vec
 
 # Adding new elements to a vector
-longer_vec[8] <- 10 
-longer_vec <- c(longer_vec, 9)
+num_vec[8] <- 10 
+longer_vec <- c(num_vec, 9)
 longer_vec
 
 
@@ -281,7 +283,7 @@ matrix(data = c(1, 2, 3, 4, 5, 6, 7, 8, 9),
 # Matrices can also be created from vectors using cbind() or rbind()
 vec_1 <- c(1, 2, 3)
 vec_2 <- c(4, 5, 6)
-vec_3 <- c(7, 8, 9)
+vec_3 <- c("a", "b", "c")
 
 # rbind "row bind" vectors by stacking them on top of each other to form a matrix
 rbind(vec_1, vec_2, vec_3)
@@ -293,11 +295,13 @@ cbind(vec_1, vec_2, vec_3)
 # These functions work with data frames too!
 
 # Accessing elements of a matrix
-mat <- cbind(vec_1, vec_2, vec_3)
+matr <- cbind(vec_1, vec_2, vec_3)
 
 mat[1, 1]  # First row, first column (upper left cell)
 mat[, 1]   # First column
 mat[1, ]   # First row
+
+mat[, "vec_1"]
 
 # We will work more with matrices when we get to regression :)
 
@@ -340,7 +344,7 @@ convert_temp <- function(f_temp, scale = "celsius") {
     temp <- (f_temp - 32) * 5/9 + 273.15
   }
   
-  return(temp)
+  return(list(temp, "other option"))
 }
 
 convert_temp(75, scale = "celsius")
@@ -385,7 +389,8 @@ for (i in 1:10) {
 
 # Look at i changing! This is super useful
 for (i in 1:10) {
-  print(i)
+  x <- i * 2
+  print(x)
 }
 
 # Loops can iterate over more than just sequences of integers
@@ -413,7 +418,7 @@ container
 
 # This also works, but is less efficient because R needs to rewrite the entire vector every iteration!
 # Sometimes this method can be useful though
-container <- c()
+container <- rep(NA, 100)
 for (i in 1:100) {
   container <- c(container, i + 5)
 }
