@@ -8,7 +8,7 @@
 
 # The best way to load this data into R is using the read_fwf function from the readr package
 library(readr)
-# Try to get used to using the here package as well! It will make your life easier in the long run!
+# Try to get used to using the here package as well! It will make your life easier in the long run
 library(here)
 
 assassins <- read_fwf(
@@ -136,6 +136,9 @@ t.test(x = forties_killed, y = sixties_killed)
 # HA: The average number of people killed in each 1940s attempt IS greater than the average killed in each 1960s attempt
 #     X_1940s > X_1960s
 t.test(x = forties_killed, y = sixties_killed, alternative = "greater")
+
+
+
 
 
 

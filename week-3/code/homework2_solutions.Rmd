@@ -12,7 +12,7 @@ $$
 R = \frac{|2K - n|}{n}
 $$
 
-Where P(K = k) = Binomial(n, p)
+Where Pr(K = k) = Binomial(n, p)
 
 ```{r}
 party_strength <- function(n) {
