@@ -1,0 +1,38 @@
+---
+title: "homework2"
+author: "Bertrand Wilden"
+date: "1/21/2021"
+output: html_document
+---
+
+
+
+
+$$
+R = \frac{|2K - n|}{n}
+$$
+
+Where P(K = k) = Binomial(n, p)
+
+```{r}
+party_strength <- function(n) {
+  K <- rbinom(10000, n, 0.5)
+  R <- abs(2 * K - n) / n
+  
+  return(R)
+}
+
+graph_party_strength <- function(sims, title) {
+  hist(sims, br = 20, col = "steelblue", main = title, xlab = "Party Cohesion")
+  legend("topright", 
+         c(paste0("Expected Value: ", round(mean(sims), digits = 3)), 
+                  paste0("Variance: ", round(var(sims), digits = 3))),
+         inset = 0.1)
+}
+
+par(mfrow = c(3, 1))
+graph_party_strength(party_strength(2), "n = 2")
+graph_party_strength(party_strength(6), "n = 6")
+graph_party_strength(party_strength(10), "n = 10")
+```
+
