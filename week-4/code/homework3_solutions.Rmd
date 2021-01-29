@@ -1,0 +1,116 @@
+---
+title: "homework3_solutions"
+author: "Bertrand Wilden"
+date: "1/26/2021"
+output: html_document
+---
+
+
+# 1(c)
+
+```{r}
+# Testing the hypothesis that less than a majority support Newsome
+prop_o <- 0.45    # Proportion observed support
+prop_e <- 0.5     # Proportion "expected" support under the null hypothesis
+n <- 200          # Sample size
+
+# Formula for the z test statistic
+z <- (prop_o - prop_e) / 
+  sqrt(prop_o * (1 - prop_o) / n)
+z
+
+# Use the Standard Normal CDF to calculate our p-value
+p_val <- pnorm(z)
+p_val
+```
+```{r}
+# What if instead of all that math, we simulated our survey 100,000 times!
+# We will generate samples from the null distribution that Newsome has 50/50 support
+
+# Set the number of samples drawn
+N <- 100000
+
+# Simulate survey responses as a function of the binomial distribution
+# Why does this make sense substantively?
+sims <- rbinom(N, 200, 0.5)
+
+# We can convert our binomial sample to z-scores to compare with our z statistic
+z_sims <- (sims - mean(sims)) / sd(sims)
+
+# Or we can can do this?
+normal_sims <- replicate(N, mean(rnorm(200) < 0))
+
+par(mfrow = c(1, 3))
+hist(sims, xlab = "Number of Newsome Supporters", main = "Null Dist (Count)", col = "steelblue")
+abline(v = prop_o * n, lwd = 3, col = "red", lty = 2)
+hist(z_sims, xlab = "Z Scores", main = "Null Dist (Z)", col = "gold")
+abline(v = z, lwd = 3, col = "red", lty = 2)
+hist(normal_sims, xlab = "Proportion of Newsome Support", main = "Null Dist (Proportion)", col = "seagreen")
+abline(v = 0.45, lwd = 3, col = "red", lty = 2)
+```
+
+```{r}
+p_val
+mean(sims <= 90)
+mean(z_sims <= z)
+mean(normal_sims <= 0.45)
+```
+
+
+# 3(c)
+
+```{r}
+which_faculty_are_richer <- function(N = 1000,
+                                     public_mean = 90000, 
+                                     ivy_mean = 92000, 
+                                     ivy_sd = 20000,
+                                     ivy_n) {
+  mean_differences <- rep(NA, N)
+  for (i in 1:N) {
+    ivy_sample <- rnorm(n = ivy_n, mean = ivy_mean, sd = ivy_sd)
+    ivy_differences <- ivy_sample - public_mean
+    mean_differences[i] <- mean(ivy_differences)
+  }
+  
+  prop_ivy_richer <- mean(mean_differences > 0)
+  hist(mean_differences, col = "gold", xlab = "Samples With Richer Ivy Faculty", 
+       main = "", br = 20)
+  legend("topright", c(paste("Ivy Sample Size:", ivy_n),
+                       paste("Proportion Ivy Richer:", prop_ivy_richer)), 
+         cex = 0.85, bg = "lightblue")
+  abline(v = 0, lwd = 5, lty = 2, col = "violetred4")
+}
+```
+
+
+```{r}
+which_faculty_are_richer(ivy_n = 10)
+```
+```{r}
+which_faculty_are_richer(ivy_n = 100)
+```
+```{r}
+which_faculty_are_richer(ivy_n = 300)
+```
+```{r}
+which_faculty_are_richer(ivy_n = 1000)
+```
+
+```{r}
+# The Boring Way
+
+# Define our values
+public_mean <- 90000
+ivy_mean <- 92000
+ivy_sd <- 20000
+ivy_n <- 300
+
+# Calculate a test statistic using the formula
+t <- (ivy_mean - public_mean) / sqrt(ivy_sd^2 / ivy_n)
+
+# Calculate a p-value
+1 - pt(df = ivy_n - 1, t)
+```
+
+
+# 6
