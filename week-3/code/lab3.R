@@ -141,6 +141,9 @@ t.test(x = forties_killed, y = sixties_killed, alternative = "greater")
 
 
 
+# This is the bonus section -----------------------------------------------
+
+
 
 ### BONUS: Graphing Confidence Intervals
 
@@ -156,10 +159,10 @@ estimates <- c(forties_mod$estimate, sixties_mod$estimate, forties_mod$estimate 
 ci <- rbind(forties_mod$conf.int, sixties_mod$conf.int, dif_mod$conf.int)
 
 # Finally, we will plot them on the same graph
-plot(1:3, estimates, ylim = c(-.1, 1), xlim = c(.5, 3.5), xaxt = "n", pch = 16, cex = 1.8, xlab = "", ylab = "Average Number of People Killed")
+plot(x = 1:3, y = estimates, ylim = c(-.1, 1), xlim = c(.5, 3.5), xaxt = "n", pch = 16, cex = 1.2, xlab = "", ylab = "Average Number of People Killed")
 segments(1:3, ci[,1], 1:3, ci[,2], lwd = 3)
 axis(1, 1:3, labels = c("Mean\n1940s", "Mean\n1960s", "Difference\nin Means"), tick = F)
-abline(h = 0, lty = 2)
+abline(h = 0, lty = 4)
 
 # You will sometimes see this depicted as a barplot instead
 bar <- barplot(estimates[1:2], ylim = c(0, 1), space = .5, names_arg = c("1940s", "1960s"), ylab = "Number Killed") # Make a barplot of only the means for each group

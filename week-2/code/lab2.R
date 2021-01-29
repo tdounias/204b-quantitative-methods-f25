@@ -21,6 +21,16 @@
 ## Density ##
 # Density function for the Normal distribution: dnorm
 curve(dnorm, lwd = 2, xlim = c(-4,  4), ylab = "Density", main = "Normal PDF")
+abline(v = 2, col = "red")
+abline(v = -2)
+
+2 * (1 - pnorm(2))
+
+x <- seq(0, 50, 0.01)
+plot(x,dchisq(x, df = 6), type = "l")
+abline(v = 20)
+
+1 - pchisq(77, df = 6)
 
 # The height of the distribution at a particular value
 dnorm(x = 0)

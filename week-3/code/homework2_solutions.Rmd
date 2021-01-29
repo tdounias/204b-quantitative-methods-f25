@@ -5,18 +5,19 @@ date: "1/21/2021"
 output: html_document
 ---
 
+# This is big title
 
-
+## smaller title
 
 $$
 R = \frac{|2K - n|}{n}
 $$
 
-Where Pr(K = k) = Binomial(n, p)
+Where Pr(K = k) = Binomial(n, p) $\alpha$. 
 
 ```{r}
 party_strength <- function(n) {
-  K <- rbinom(10000, n, 0.5)
+  K <- rbinom(10000, n, 0.9)
   R <- abs(2 * K - n) / n
   
   return(R)
@@ -29,10 +30,33 @@ graph_party_strength <- function(sims, title) {
                   paste0("Variance: ", round(var(sims), digits = 3))),
          inset = 0.1)
 }
+```
 
+```{r}
 par(mfrow = c(3, 1))
 graph_party_strength(party_strength(2), "n = 2")
 graph_party_strength(party_strength(6), "n = 6")
 graph_party_strength(party_strength(10), "n = 10")
 ```
 
+```{r simulation with 100}
+graph_party_strength(party_strength(100), "n = 100")
+```
+
+```{r}
+hist(rbinom(n = 100, size = 100, prob = 0.5))
+```
+
+```{r}
+rbinom(1, 100, 0.5)
+sum(rbinom(100, 1, 0.5))
+```
+
+```{r}
+means <- c()
+for (i in 1:10) {
+  x <- rnorm(n = 100, mean = 0, sd = 1)
+  means[i] <- mean(x)
+}
+means
+```
