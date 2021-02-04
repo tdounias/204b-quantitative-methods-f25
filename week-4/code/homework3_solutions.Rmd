@@ -23,6 +23,7 @@ z
 p_val <- pnorm(z)
 p_val
 ```
+
 ```{r}
 # What if instead of all that math, we simulated our survey 100,000 times!
 # We will generate samples from the null distribution that Newsome has 50/50 support
@@ -113,4 +114,17 @@ t <- (ivy_mean - public_mean) / sqrt(ivy_sd^2 / ivy_n)
 ```
 
 
-# 6
+```{r}
+a <- c(1, 1, 2, 3, 4, 1, 0, 0, 1)
+
+# sum(a == 1)
+
+counts_of_one <- 0
+for (i in 1:length(a)) {
+  if (a[i] == 1) {
+    counts_of_one <- counts_of_one + 1
+  }
+}
+mean(a == 1)
+```
+

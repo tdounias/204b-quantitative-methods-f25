@@ -155,7 +155,8 @@ plot(aug_fish$fhrev,
      ylab = "GDP Growth",
      col = "steelblue",
      pch = 16,
-     cex = 0.5)
+     cex = 0.5,
+     main = "RegSS")
 abline(tidy(mod)$estimate, lwd = 3, col = "black")
 # Add line for the mean of GDP Growth (Y)
 abline(h = mean(aug_fish$growth), lwd = 3, col = "limegreen", lty = 3)
@@ -178,7 +179,8 @@ plot(aug_fish$fhrev,
      ylab = "GDP Growth",
      col = "steelblue",
      pch = 16,
-     cex = 0.5)
+     cex = 0.5,
+     main = "TSS")
 abline(h = mean(aug_fish$growth), lwd = 3, col = "limegreen", lty = 3)
 segments(x0 = aug_fish$fhrev, y0 = mean(aug_fish$growth),
          x1 = aug_fish$fhrev, y1 = aug_fish$growth,
@@ -191,11 +193,11 @@ TSS
 
 # How does it all fit together??
 # Discussion Question: what is the relationship between RegSS, RSS, and TSS?
-
+RegSS + RSS == TSS
 
 
 # What is the proportion of variation in Y that is explained by our model?
-
+RegSS / TSS
 
 
 
