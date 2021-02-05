@@ -18,6 +18,7 @@ library(texreg)
 heights <- read.table("https://raw.githubusercontent.com/avehtari/ROS-Examples/master/PearsonLee/data/MotherDaughterHeights.txt")
 head(heights)
 ```
+
 ```{r}
 mod <- lm(daughter_height ~ mother_height, data = heights) %>% 
   tidy()

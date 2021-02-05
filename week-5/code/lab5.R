@@ -9,9 +9,8 @@ library(here)
 library(tidyverse)
 library(broom)
 
-
 # We are going to use the same Fish data set as last week.
-load(here("week-4", "data", "fish.RData"))
+FishData <- read_csv(here("week-4", "data", "fish.csv"))
 head(FishData)
 
 
@@ -34,6 +33,8 @@ summary(mod)
 # (20 percentage points more likely) to belong 
 # to OPEC, compared to other countries
 
+mean(FishData$opec[FishData$muslim == 0])
+
 
 # How would we interpret the slope in this mode?
 # What about the intercept?
@@ -41,12 +42,16 @@ mod2 <- lm(growth ~ postcom, data = FishData)
 summary(mod2)
 
 
+# Can we find similar results without using lm()?
+
+mean(FishData$growth[FishData$postcom == 1])
+
 
 ### Multivariate Regressions ###
 
 # In order to run a regression on multiple IVs at once, we can use
 # the same function as before, and we just separate the IVs with a "+"
-# fhrev = b0 + b1 income + b2 elf + e
+# fhrev = b0 + b1 * income + b2 * elf + e
 mod <- lm(fhrev ~ income + elf, data = FishData)
 summary(mod)
 
@@ -199,4 +204,4 @@ summary(mod)
 # growth = a + b1 * income_levellow + b2 * income_levelmiddle + e
 
 
-
+mean(FishData$growth[FishData$income_level == "low"])
