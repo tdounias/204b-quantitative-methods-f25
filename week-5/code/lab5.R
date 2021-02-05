@@ -174,7 +174,7 @@ solve(t(X) %*% X)           # So it is impossible to invert this matrix
 # However, it is ok to do this:
 
 FishData$elf_squared <- FishData$elf ^ 2
-mod <- lm(fhrev ~ income + elf + elf_squared, data=FishData)
+mod <- lm(fhrev ~ income + elf + elf_squared, data = FishData)
 summary(mod)
 
 X <- cbind(1, FishData$income, FishData$elf, FishData$elf_squared)
@@ -191,11 +191,12 @@ FishData <- FishData %>%
                                   income_level == 3 ~ "high"))
 
 # "high" income level is the reference category
+# It shows up in the intercept term
 # We interpret the other coefficients in relation to it
 mod <- lm(growth ~ income_level, data = FishData)
 summary(mod)
 
-
+# growth = a + b1 * income_levellow + b2 * income_levelmiddle + e
 
 
 
