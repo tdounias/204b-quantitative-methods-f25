@@ -183,7 +183,7 @@ pets %>%
 
 pets %>% 
   group_by(species) %>% 
-  summarise(avg_age = median(age), obs = n())
+  summarise(median_age = median(age), obs = n(), oldest_age = max(age))
 
 
 # mutate, select, filter, joins, group_by, summarise
@@ -244,7 +244,7 @@ counties <- counties %>%
 # Great!
 # Now let's prepare out main independent variable
 # Conceptually: a county's dependency on manufacturing employment
-# Operationalized: the average proportion of county employment in manufacturing 2014 to 2016
+# Operationalized: the average proportion of county employment in manufacturing from 2014 to 2016
 
 # Load in a data set with employment data from 2014 to 2016
 # County Business Patterns
