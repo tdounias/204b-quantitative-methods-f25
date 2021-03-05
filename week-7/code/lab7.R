@@ -107,7 +107,8 @@ counties %>%
   ggplot(aes(x = prop_manuf, y = trump_difference)) +
   geom_point(color = "darkcyan", alpha = 0.2, size = 3) +
   geom_smooth(method = "lm", se = F, fullrange = T, color = "darkcyan") +
-  theme_minimal() 
+  theme_minimal() +
+  theme(text = element_text(family = "serif"))
 
 # AHHHHHH
 counties %>% 
@@ -189,6 +190,18 @@ ut_va <- ut_va %>%
 mod_int <- lm(trump_difference ~ VA + rural + VA:rural, data = ut_va)
 screenreg(mod_int)
 
+
+
+m <- lm(trump_difference ~ prop_manuf + white_pct, data = counties)
+
+new_dat <- data.frame(
+  prop_manuf = c(25, 50, 75),
+  white_pct = mean(counties$white_pct, na.rm = T)
+)
+
+predict(m, newdata = new_dat, interval = "confidence")
+
+
 # Or
 # y ~ x1 * x2
 mod_int <- lm(trump_difference ~ VA*rural, data = ut_va)
@@ -196,9 +209,9 @@ screenreg(mod_int)
 
 # How to interpret this?
 # trump_difference = -24.1 + 24.6 * VA + 13.9 * rural - 8.0 * VA * rural
-#       -24.1: predicted trump vote for Utah and non-rural
-#        24.6: difference in trump vote between Virginia and Utah for non-rural
-#        13.9: difference in trump vote between rural and non-rural for Utah
+#       -24.1: predicted trump vote for Utah and non-rural county
+#        24.6: difference in trump vote between Virginia and Utah for non-rural counties
+#        13.9: difference in trump vote between rural and non-rural counties for Utah
 #         8.0: difference in slope for rural between Utah and Virginia
 
 
@@ -206,7 +219,7 @@ screenreg(mod_int)
 ######################################################################
 ## Interactions With One Continuous Variable and One Dummy Variable ##
 
-# Let's examine how the manufactuing proportion effects trump support in the two states
+# Let's examine how the manufacturing proportion effects trump support in the two states
 mod_int <- lm(trump_difference ~ prop_manuf + VA + prop_manuf:VA, data = ut_va)
 
 
@@ -315,7 +328,8 @@ anova(mod_restricted, mod_full)
 
 # Here's our model
 # We are interacting manufacturing proportion by white percentage
-mod_cont <- lm(trump_difference ~ prop_manuf * white_pct, data = counties)
+mod_cont <- lm(trump_difference ~ prop_manuf * white_pct + female_pct + 
+                 age65andolder_pct + median_hh_inc + lesscollege_pct + state_abbrv, data = counties)
 summary(mod_cont)
 
 # This interaction effect is a lot harder to interpret

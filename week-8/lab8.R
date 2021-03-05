@@ -560,13 +560,13 @@ dfbetas_mod <- dfbeta(multi_mod)
 
 plot(
   NA,
-  xlim = c(1.2 * min(D[, "prop_manuf"]), 1.2 * max(D[, "prop_manuf"])),
-  ylim = c(1.2 * min(D[, "white_pct"]), 1.2 * max(D[, "white_pct"])),
+  xlim = c(1.2 * min(dfbetas_mod[, "prop_manuf"]), 1.2 * max(dfbetas_mod[, "prop_manuf"])),
+  ylim = c(1.2 * min(dfbetas_mod[, "white_pct"]), 1.2 * max(dfbetas_mod[, "white_pct"])),
   col = "white",
   xlab = "prop_manuf",
   ylab = "white_pct"
 )
-text(D[, "prop_manuf"], D[, "white_pct"], as.character(model_data$.rownames), cex = .8)
+text(dfbetas_mod[, "prop_manuf"], dfbetas_mod[, "white_pct"], as.character(model_data$.rownames), cex = .8)
 
 
 
@@ -593,7 +593,7 @@ text(y_hat, D, model_data$.rownames, cex=.8)
 # model_data$.cooksd
 ggplot(model_data) +
   aes(x = .fitted, y = .cooksd) +
-  geom_text(aes(label = .rownames), check_overlap = T) +
+  geom_text(aes(label = .rownames), check_overlap = F) +
   theme_minimal()
 
 
