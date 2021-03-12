@@ -1,0 +1,86 @@
+---
+title: "homework9_solutions"
+author: "Bertrand Wilden"
+date: "3/11/2021"
+output: html_document
+---
+
+1.
+$$
+\sigma_i^2 = 1 + 0.5*x_i + \gamma_i
+$$
+```{r warning=F}
+library(lmtest)
+library(estimatr)
+
+N <- 100
+betas <- c()
+betas_robust <- c()
+p_values <- c()
+
+for (i in 1:1000) {
+  x <- 1:N
+  sigma2 <- 1 + 0.5*x + rnorm(N)
+  e <- rnorm(N, sd = sqrt(sigma2))
+  y <- x + e
+  
+  mod <- lm(y ~ x)
+  betas[i] <- coef(mod)[2]
+  
+  mod_robust <- lm_robust(y ~ x)
+  betas_robust[i] <- coef(mod_robust)[2]
+  
+  bp_results <- bptest(mod)
+  p_values[i] <- bp_results$p.value
+}
+par(mfrow = c(2, 2))
+hist(betas, br = 20, main = "Distribution of Betas", col = "brown")
+abline(v = 1, col = "gold", lwd = 4)
+hist(betas_robust, br = 20, main = "Distribution of Betas (Robust)", col = "brown")
+abline(v = 1, col = "gold", lwd = 4)
+
+
+hist(p_values, br = 20, main = "Distribution of P-Values for Breusch-Pagan Test", col = "darkcyan")
+abline(v = 0.05, col = "gold", lwd = 4)
+legend("topright", "p = 0.05", fill = "gold")
+plot(x, y, main = "Linear-increasing Errors", col = "darkcyan")
+```
+
+$$
+\sigma_{ij}^2 \sim \chi^2
+$$
+
+```{r}
+N <- 100
+betas <- c()
+betas_robust <- c()
+p_values <- c()
+
+for (i in 1:1000) {
+  x <- 1:N
+  sigma2 <- c(rchisq(N/2, df = 1),
+              rchisq(N/2, df = 50))
+  e <- rnorm(N, sd = sqrt(sigma2))
+  y <- x + e
+  
+  mod <- lm(y ~ x)
+  betas[i] <- coef(mod)[2]
+  
+  mod_robust <- lm_robust(y ~ x)
+  betas_robust[i] <- coef(mod_robust)[2]
+  
+  bp_results <- bptest(mod)
+  p_values[i] <- bp_results$p.value
+}
+par(mfrow = c(2, 2))
+hist(betas, br = 20, main = "Distribution of Betas", col = "brown")
+abline(v = 1, col = "gold", lwd = 4)
+hist(betas_robust, br = 20, main = "Distribution of Betas (Robust)", col = "brown")
+abline(v = 1, col = "gold", lwd = 4)
+
+hist(p_values, br = 20, main = "Distribution of P-Values for Breusch-Pagan Test", col = "darkcyan")
+abline(v = 0.05, col = "gold", lwd = 4)
+legend("topright", "p = 0.05", fill = "gold")
+plot(x, y, main = "Chi2 Errors", col = "darkcyan")
+```
+

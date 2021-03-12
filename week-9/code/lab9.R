@@ -103,7 +103,7 @@ mod_cluster_robust <-
 # lfe::felm() can also be used to cluster SEs when fitting a model
 
 
-
+library(texreg)
 # What do you notice about these 3 different methods of calculating standard errors?
 screenreg(
   list(mod_uncorrected,
