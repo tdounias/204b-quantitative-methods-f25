@@ -1,6 +1,6 @@
 ---
 title: "Lab 2: Probability and Simulations"
-author: "Bertrand Wilden"
+author: "Theodoros Ntounias"
 institute: "UCSD"
 date: "`r Sys.Date()`"
 output:
@@ -12,12 +12,6 @@ output:
       highlightLines: true
       countIncrementalSlides: false
 ---
-
-
-```{r echo=F}
-library(emo)
-```
-
 
 <style type="text/css">
 .remark-slide-content {
@@ -39,19 +33,93 @@ library(emo)
 
 #Plan for Today
 
-- Probability recap `r ji("meh")`
+- Introductions and lesson plan
 
 --
 
-- Functions in R `r ji("nervous")`
+- Functions in R
 
 --
 
-- Simulations in R `r ji("cool")`
+- Simulations in R
 
 --
 
-- Simulations **and** Functions in R `r ji("smile")`
+- Simulations **and** Functions in R
+
+---
+
+# About Me
+
+
++ 6th year PhD Candidate
+
+--
+
++ Comparative politics: democratic erosion and subnational government.
+
+--
+
++ Greek
+
+--
+
++ Resources on Canvas and https://github.com/tdounias/204b-quantitative-methods-f25
+
+--
+
+  + Thanks to Bert Wilden (UCSD PhD and very tall man)
+  
+---
+
+#Quantitative Workflow
+
++ Using your research tools *efficiently*, and in a *principled* manner
+
+--
+
++ **Efficient Workflow:** Am I getting things done quickly and effectively?
+
+--
+
+  + However...
+  + ...good code is finished code.
+  + Will not "look pretty" for years.
+
+--
+
++ **Principled Workflow:** Am I taking the right steps to produce *good* science? 
+
+--
+
+  + Reproducibility
+  + Transparency
+  
+---
+
+#Which tools?
+
+.center[![Stat Language Comparison](pics/stats-languages.jpeg)]
+
+---
+
+#R vs Stata
+
+.pull-left[
+**R**
++ All-in-one package
++ Other Methods courses inR
++ Desirable skill outside academia
++ Vibrant community
+]
+
+--
+
+.pull-right[
+**Stata**
++ Easier to learn if starting from zero
++ Collaboration and replication?
+]
 
 ---
 
@@ -123,12 +191,6 @@ $\text{Pr}(\text{burnt down} \ | \ \text{burnt up}) = \frac{\color{red}{\text{Pr
 $\color{red}{\text{Pr}(\text{burnt down}, \ \text{burnt up})} = \frac{1}{3}$
 ]
 
---
-
-.right[
-`r ji("smile")`
-]
-
 ---
 
 #Bayes Theorem in Action
@@ -142,6 +204,20 @@ $\color{red}{\text{Pr}(\text{burnt up})} = \ ???$
 ]
 
 ---
+
+#Bayes Theorem in Action
+
+.equation[
+$\color{red}{\text{Pr}(\text{burnt up})} = \ ???$
+]
+
+--
+
+Law of total probability!
+
+.equation[
+$Pr(A) = \sum_\limits{n} Pr(A|B_n)Pr(B_n)$
+]
 
 #Bayes Theorem in Action
 
@@ -190,12 +266,6 @@ $$\color{red}{\text{Pr}(\text{burnt up})} = \text{Pr}(\text{BB})(1) + \text{Pr}(
 $$= \color{blue}{\left(\frac{1}{3}\right) + \left(\frac{1}{3}\right)\left(\frac{1}{2}\right) = \frac{1}{2}}$$
 ]
 
---
-
-.right[
-`r ji("confused")`
-]
-
 ---
 
 #Bayes Theorem in Action
@@ -226,15 +296,15 @@ Why is this important to know how to do?
 
 --
 
-- Natural processes appear "random". Simulation helps us see how this variation plays out
+- Natural processes appear "random". Simulation helps us see how this variation plays out.
 
 --
 
-- Gain insight into sampling distributions which underlie Frequentist inference
+- Gain insight into sampling distributions which underlie Frequentist inference.
 
 --
 
-- Statistical models, like regression, are probabilistic. Simulations help us understand their predictions
+- Statistical models, like regression, are probabilistic. Simulations help us understand their predictions.
 
 ---
 
@@ -244,7 +314,7 @@ Why is this important to know how to do?
 
 --
 
-- You will use simulations all the time in MLE, Causal Inf, Experiments
+- You will use simulations all the time in MLE, Causal Inf, Experiments.
 
 --
 
@@ -255,10 +325,6 @@ Why is this important to know how to do?
 --
 
 - Bayesian inference is all sampling and simulation
-
---
-
-- Fake data is a way of life
 
 ---
 

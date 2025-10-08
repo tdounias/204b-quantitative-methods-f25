@@ -76,7 +76,6 @@ curve(dbeta(x, shape1=2, shape2=20), lwd=2, xlim=c(0,  1), xlab="p", main="Beta(
 curve(dbeta(x, shape1=1, shape2=2), lwd=2, xlim=c(0,  1), xlab="p", main="Beta(1, 2)")
 
 
-
 ## Cumulative Density ##
 # Cumulative density function for the Normal distribution: pnorm
 curve(pnorm, lwd = 2, xlim = c(-3,  3), ylab = "Probability", xlab = "X", main = "Normal CDF")
@@ -129,12 +128,6 @@ a <- pnorm(1) - pnorm(0)
 dbinom(2, 3, 0.5)
 
 
-
-# Play around with distributions at: https://ben18785.shinyapps.io/distribution-zoo/
-# Also includes the R code for pdf/cdfs. And Latex equations!
-
-
-
 ## Quantile Functions ##
 plot(qnorm, ylab = "X", xlab = "Probability")
 
@@ -145,7 +138,7 @@ qnorm(0.25)
 
 # What is the 95% interval around the mean of N(20, 3^2)
 qnorm(0.05, mean = 20, sd = 3)
-qnorm(p = .95, 20, 3)
+qnorm(0.95, mean = 20, sd = 3)
 
 
 ## Sampling from Distributions ##
@@ -170,7 +163,7 @@ hist(rbinom(10000, 1, 0.5), col = "steelblue", xlab = "X")
 hist(rbinom(10, 5, 0.7), col = "steelblue", xlab = "X")
 hist(rbinom(10000, 5, 0.7), col = "steelblue", xlab = "X", br = 20)
 
-# Poisson poisson poisson
+# F I S H
 rpois(1000, lambda = 4)          # 1000 draws from the poisson distribution with lambda=4
 
 hist(rpois(10000, lambda = 4), col = "steelblue", xlab = "X") 
@@ -181,8 +174,6 @@ runif(1000, min = -1, max = 1)   # 1000 draws from uniform distribution from -1 
 
 hist(runif(10, min = -1, 1), col = "steelblue", xlab = "X", xlim = c(-3, 3))
 hist(runif(1000, min = -1, 1), col = "steelblue", xlab = "X", xlim = c(-3, 3))
-
-
 
 ## Z Scores ##
 # Let's make an easy vector to work with
@@ -232,10 +223,6 @@ curve(dnorm, lwd = 2, xlim = c(-6,  6), ylab = "Density", main = "Normal PDF")
 abline(v = z, lwd = 2, col = "red")
 
 
-# Why doesn't this work?
-2 * (1 - pnorm(mean(nba_heights), mean = avg_height, sd = sd_height))
-
-
 ## ---------------------------------------------------------------------- ##
 ##                                  Break                                 ##
 ## ---------------------------------------------------------------------- ##
@@ -247,11 +234,13 @@ abline(v = z, lwd = 2, col = "red")
 # We use '<-' in R to assign values to objects
 numeric_object <- 55
 character_object <- "monkey"
+both_object <- "32"
 
 # Then when we do things with these objects
 numeric_object
 numeric_object * 10
-
+character_object * 10
+both_object * 10
 
 
 #############
@@ -281,7 +270,6 @@ longer_vec <- c(num_vec, 9)
 longer_vec
 
 
-
 ##############
 ## Matrices ##
 
@@ -301,11 +289,13 @@ rbind(vec_1, vec_2, vec_3)
 # cbind "column bind" vectors by placing them side by side to form a matrix
 cbind(vec_1, vec_2, vec_3)
 
-# rbind and cbind are VERY useful for adding additional columns or rows 
+# rbind and cbind are VERY useful for adding additional columns or rows
+# Why are these characters and not numbers?
+
 # These functions work with data frames too!
 
 # Accessing elements of a matrix
-matr <- cbind(vec_1, vec_2, vec_3)
+mat <- cbind(vec_1, vec_2, vec_3)
 
 mat[1, 1]  # First row, first column (upper left cell)
 mat[, 1]   # First column
@@ -426,14 +416,6 @@ for (i in 1:100) {
 }
 container
 
-# This also works, but is less efficient because R needs to rewrite the entire vector every iteration!
-# Sometimes this method can be useful though
-container <- rep(NA, 100)
-for (i in 1:100) {
-  container <- c(container, i + 5)
-}
-container
-
 
 
 ############################################################
@@ -471,7 +453,6 @@ pets <- c("monkey", "cat", "dog", "gerbil", "rabbit", "fish")
 best_pet <- sample(pets, size = 1)
 # R can reveal truths about the world...
 print(paste0("The best pet is ", best_pet))
-
 
 
 ###################
