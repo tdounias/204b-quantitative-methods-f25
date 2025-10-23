@@ -168,3 +168,31 @@ abline(h = 0, lty = 4)
 bar <- barplot(estimates[1:2], ylim = c(0, 1), space = .5, names_arg = c("1940s", "1960s"), ylab = "Number Killed") # Make a barplot of only the means for each group
 segments(bar[1], estimates[2] + dif_mod$conf.int[1], bar[1], estimates[2] + dif_mod$conf.int[2], lwd = 5)       # Add the confidence interval for the *difference in means* to one of the bars
 
+
+######################################
+### BONUS: Plotting Shaded Regions ###
+
+## Here are some ways to plot shaded regions on histograms and density plots
+
+outcomes <- rnorm(100000, 4, 2)
+
+our.hist <- hist(outcomes)                                # First, save the histogram as an object
+color <- ifelse(our.hist$breaks < 2, "blue", "gray70")    # Then extract the break points that R uses for the bins and use them to define the colors
+hist(outcomes, col=color)                                 # Finally, make the histogram again and use those colors as an argument in the function
+
+our.hist <- hist(outcomes)
+color <- ifelse(our.hist$breaks >= 2 & our.hist$breaks < 4, "blue", "gray70")
+hist(outcomes, col=color)
+
+curve(dnorm(x), type="l", lwd=4, xlim=c(-3, 3), main="One-Sided Test")
+abline(h=0, lty=3)
+x1 <- seq(1.644854, 4, by=.01)
+polygon(c(x1, rev(x1)), c(dnorm(x1), rep(0, length(x1))), col="blue")
+
+curve(dnorm(x), type="l", lwd=4, xlim=c(-3, 3), main="Two-Sided Test")
+abline(h=0, lty=3)
+x1 <- seq(-4, -1.96, by=.01)
+polygon(c(x1, rev(x1)), c(dnorm(x1), rep(0, length(x1))), col="blue")
+x2 <- seq(1.96, 4, by=.01)
+polygon(c(x2, rev(x2)), c(dnorm(x2), rep(0, length(x2))), col="blue")
+

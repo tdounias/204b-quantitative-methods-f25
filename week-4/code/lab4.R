@@ -10,7 +10,7 @@ library(broom)
 library(tidyverse)
 
 # Load in .RData files with load()
-load(here("week-4", "data", "fish.RData"))
+FishData <- read_csv(here("week-4", "data", "fish.csv"))
 
 # Take a look at what we're working with
 head(FishData)
@@ -30,7 +30,6 @@ head(FishData)
 mod <- lm(growth ~ fhrev, data = FishData)
 # growth = a + b * fhrev + e
 
-# bam! science!
 
 
 
@@ -73,11 +72,6 @@ ggplot(FishData) +
   theme_minimal()
 
 
-## Discussion Question:
-# How did we (or in this case R) know how to draw the fitted line?
-
-
-
 ## Let's go deeper into the results of our model
 
 # Create a new data frame object with the data-level statistics
@@ -108,7 +102,7 @@ abline(h = 0, lwd = 3, lty = 3, col = "red")
 ggplot(data = aug_fish) +
   aes(x = fhrev, y = .resid) +
   geom_point(color = "steelblue", size = 2) +
-  geom_hline(yintercept = 0, size = 1.2, col = "red", linetype = "dashed") +
+  geom_hline(yintercept = 0, linewidth = 1.2, col = "red", linetype = "dashed") +
   labs(x = "Freedom House Score", y = "Residual") +
   theme_minimal()
 
@@ -191,11 +185,6 @@ Y <- aug_fish$growth           # Our dependent variable in the regression
 TSS <- sum((Y - mean(Y))^2)
 TSS
 
-# How does it all fit together??
-# Discussion Question: what is the relationship between RegSS, RSS, and TSS?
-RegSS + RSS == TSS
-
-
 # What is the proportion of variation in Y that is explained by our model?
 RegSS / TSS
 
@@ -266,116 +255,3 @@ X <- as.matrix(cbind(1, FishData[, c("fhrev", "elf", "income", "britcol", "postc
 
 betas <- solve(t(X) %*% X) %*% t(X) %*% Y
 betas
-
-
-
-#####################################################################
-#####################################################################
-
-# Bonus section from the previous 204B TA
-# Proceed with caution
-
-### Using Brute Force!
-y <- FishData$growth
-x <- FishData$fhrev
-Alphas <- seq(-5, 5, by=.01)
-Betas <- seq(-5, 5, by=.01)
-
-# The basic idea: 
-# 1. Iterate through each combination of alpha and beta and 
-#    record the sum of the squared residuals
-# 2. Find the alpha/beta combination that minimizes that sum
-results <- matrix(nrow=length(Alphas), ncol=length(Betas))
-for(i in 1:length(Alphas)){
-  for(j in 1:length(Betas)){
-    a <- Alphas[i]
-    b <- Betas[j]
-    y.hat <- a + b*x
-    residuals <- y - y.hat
-    sum.squared.residuals <- sum(residuals^2)
-    results[i,j] <- sum.squared.residuals
-  }
-}
-rownames(results) <- Alphas
-colnames(results) <- Betas
-View(results)
-
-min.location <- which(results == min(results), arr.ind = TRUE)
-
-Alphas[min.location[1]]    # the optimal intercept
-Betas[min.location[2]]     # the optimal slope
-mod
-
-#####################################################################
-#####################################################################
-
-
-
-## Displaying model output (graphics)
-
-# Save the variable-level results in a table
-tidy_mod <- mod %>% 
-  tidy(conf.int = T) %>% 
-  print()
-
-# Plot using ggplot
-ggplot(tidy_mod) +
-  aes(x = term, y = estimate) +
-  geom_pointrange(aes(ymin = conf.low, ymax = conf.high), size = 1.5) +
-  geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
-  coord_flip() +
-  labs(x = "Variable", y = "Estimate") +
-  theme_minimal()
-  
-# If the confidence intervals don't overlap 0, our results are ready for the APSR
-
-# Sometimes you will see people use standard errors instead of confidence intervals
-# SE * 2 is basically the same distance from the estimate as the CI
-ggplot(tidy_mod) +
-  aes(x = term, y = estimate) +
-  geom_pointrange(
-    aes(ymin = estimate - std.error, ymax = estimate + std.error),
-    size = 1.5
-    ) +
-  geom_linerange(
-    aes(ymin = (estimate - 2 * std.error), ymax = (estimate + 2 *std.error)),
-    size = .75
-  ) +
-  geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
-  coord_flip() +
-  labs(x = "Variable", y = "Estimate") +
-  theme_minimal()
-
-
-## Displaying model output (tables)
-
-# The texreg package is the best way to go
-# Forget stargazer!
-
-# install.packages("texreg")
-library(texreg)
-
-# To check out the results in the Console use texreg::screenreg
-screenreg(mod)
-
-# To generate Latex output use texreg::texreg
-# If you are generating a pdf output in RMarkdown this is the way to go
-texreg(mod)
-
-# To generate HTML output use texreg::htmlreg
-# If you are generating a HTML output in RMarkdown this is the way to go
-htmlreg(mod)
-
-
-
-# Dope!
-plotreg(mod)
-
-
-# Adding another model side by side is easy!
-mod2 <- lm(growth ~ fhrev + opec, data = FishData)
-
-# Put your models into a list
-screenreg(list(mod, mod2))
-
-plotreg(list(mod, mod2))

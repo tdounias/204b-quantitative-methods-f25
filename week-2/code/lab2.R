@@ -123,10 +123,11 @@ pnorm(4, 4, 2) - pnorm(2, 4, 2)
 a <- pnorm(1) - pnorm(0)
 
 
-### Exercise 3: Connecting pbimon to dbinom
+### Exercise 3: Connecting pbinon to dbinom
 # How would you use pbinom to calculate the probability of 2 heads in 3 flips, dbinom(2, 3, 0.5)
 dbinom(2, 3, 0.5)
 
+pbinom(2, 3, 0.5) - pbinom(1, 3, 0.5)
 
 ## Quantile Functions ##
 plot(qnorm, ylab = "X", xlab = "Probability")
@@ -265,7 +266,7 @@ num_vec[1] <- 7
 num_vec
 
 # Adding new elements to a vector
-num_vec[8] <- 10 
+num_vec[12] <- 10 
 longer_vec <- c(num_vec, 9)
 longer_vec
 
@@ -561,34 +562,4 @@ down <- pancakes[2, ]
 num_11_10 <- sum(up == 1)
 num_11 <- sum(up == 1 & down == 1)
 num_11 / num_11_10
-
-
-
-######################################
-### BONUS: Plotting Shaded Regions ###
-
-## Here are some ways to plot shaded regions on histograms and density plots
-
-outcomes <- rnorm(100000, 4, 2)
-
-our.hist <- hist(outcomes)                                # First, save the histogram as an object
-color <- ifelse(our.hist$breaks < 2, "blue", "gray70")    # Then extract the break points that R uses for the bins and use them to define the colors
-hist(outcomes, col=color)                                 # Finally, make the histogram again and use those colors as an argument in the function
-
-our.hist <- hist(outcomes)
-color <- ifelse(our.hist$breaks >= 2 & our.hist$breaks < 4, "blue", "gray70")
-hist(outcomes, col=color)
-
-curve(dnorm(x), type="l", lwd=4, xlim=c(-3, 3), main="One-Sided Test")
-abline(h=0, lty=3)
-x1 <- seq(1.644854, 4, by=.01)
-polygon(c(x1, rev(x1)), c(dnorm(x1), rep(0, length(x1))), col="blue")
-
-curve(dnorm(x), type="l", lwd=4, xlim=c(-3, 3), main="Two-Sided Test")
-abline(h=0, lty=3)
-x1 <- seq(-4, -1.96, by=.01)
-polygon(c(x1, rev(x1)), c(dnorm(x1), rep(0, length(x1))), col="blue")
-x2 <- seq(1.96, 4, by=.01)
-polygon(c(x2, rev(x2)), c(dnorm(x2), rep(0, length(x2))), col="blue")
-
 
