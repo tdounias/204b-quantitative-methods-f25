@@ -15,14 +15,13 @@ head(FishData)
 
 
 ### First, let's talk about dummy variables ###
-### (This came up on some of your HW4s)     ###
 
 # Question: Are Muslim-majority countries more likely to
 # belong to OPEC compared to other countries?
 
 table(FishData$opec)
 table(FishData$muslim)
-plot(FishData$muslim, FishData$opec) # AHHHHHHH
+plot(FishData$muslim, FishData$opec) # Useless
 
 # Nevertheless, it's OK to do this:
 mod <- lm(opec ~ muslim, data = FishData)
@@ -42,11 +41,6 @@ mod2 <- lm(growth ~ postcom, data = FishData)
 summary(mod2)
 
 
-# Can we find similar results without using lm()?
-
-mean(FishData$growth[FishData$postcom == 1])
-
-
 ### Multivariate Regressions ###
 
 # In order to run a regression on multiple IVs at once, we can use
@@ -64,8 +58,7 @@ solve(t(X) %*% X) %*% t(X) %*% Y
 
 ### Preview of the Variance-Covariance Matrix ##
 
-# We will talk about this a lot more in lecture next week, but the
-# variance-covariance matrix estimates the covariance between our
+# The variance-covariance matrix estimates the covariance between our
 # regression coefficients
 vcov(mod)
 
@@ -80,8 +73,7 @@ tidy(mod)
 
 # The takeaway: (X'X)^1 matrix is hard to calculate by hand, but it is really
 #               important because it gives us both our estimates of the
-#               coefficients, and the standard errors for those estimates.
-#               This is going to allow us to do hypothesis testing next week
+#               coefficients, and the standard errors for those estimates
 
 # Betas:
 betas <- solve(t(X) %*% X) %*% t(X) %*% Y
@@ -202,6 +194,4 @@ mod <- lm(growth ~ income_level, data = FishData)
 summary(mod)
 
 # growth = a + b1 * income_levellow + b2 * income_levelmiddle + e
-
-
 mean(FishData$growth[FishData$income_level == "low"])
