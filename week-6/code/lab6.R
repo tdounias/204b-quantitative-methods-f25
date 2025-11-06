@@ -12,25 +12,24 @@ library(broom)
 library(tidyverse)
 library(here)
 # install.packages("tidylog")
-library(tidylog)                # EXTREMELY useful package for checking your work
+library(tidylog)
 
 # Cleaning data is the process of transforming raw data files into something "usable"
-# What is "usable" depends on context and should be at the front of your mind at ALL TIMES
+# What is "usable" depends on context
 
 
 # Tips
 #   1. ALWAYS be thinking about what you want your final data set to look like
 #               Typically this has to do with your research question
 #               What variables do you want in the regression, and at what level?
-#   2. Before digging into a data set, make sure you know the UNIT of ANALYSIS!
+#   2. Before digging into a data set, make sure you know the UNIT of ANALYSIS.
 #               i.e. what do rows in the data represent?
-#   3. NEVER overwrite raw data files. Saving your "clean" data in .rda format is good
+#   3. NEVER overwrite raw data files.
 
 
 # There are several ways of cleaning data in R
-#        - base R: clunky, ugly, boring! Weird syntax! I don't like it
-#        - tidyverse: Love it! Fun! One of the main reasons I chose R over Stata or Python
-#        - data.table: Good for BIG data. I am still learning this one...
+#        - base R: clunky, ugly, boring! Weird syntax!
+#        - tidyverse: One of the main advantages of R over Stata or Python
 
 
 # Let's recap some of the basic cleaning functions in dplyr
@@ -148,11 +147,16 @@ pets
 
 # Let's find the average age within each species
 pets %>% 
-  group_by(species) %>%                  
-  mutate(species_avg_age = mean(age))           # Mean ages within species group
+  group_by(species)
+pets
 
 # group_by doesn't "do" anything on its own.
 # But it modifies how all functions below it in the pipeline operate
+
+pets %>% 
+  group_by(species) %>%                  
+  mutate(species_avg_age = mean(age))           # Mean ages within species group
+pets
 
 # Use ungroup() in more complicated sequences and as a good habit
 pets %>% 
@@ -188,10 +192,6 @@ pets %>%
 
 # mutate, select, filter, joins, group_by, summarise
 # these are the functions you need for the problem set!
-
-
-
-
 
 # Real data exercise!
 
@@ -307,7 +307,7 @@ state_gini <- read_csv(here("week-6", "data", "nhgis2016state_gini.csv"))
 state_gini <- state_gini %>% 
   rename(state_gini_coef = AGL1E001)
 
-# How are we going to merge this variable into our county data set???
+# How are we going to merge this variable into our county data set?
 # The variable for state, STATEA, in the gini data set
 # doesn't match anything in the "counties" data set
 
@@ -337,9 +337,9 @@ View(counties)
 # Let's try to merge the state-level gini data into our county-level data!
 counties %>% 
   left_join(state_gini, by = c("statefips" = "STATEA"))
-# What happened?!
+# What happened?
 
-# Incompatible types will curse you when trying to join data sets
+# Incompatible types will throw an error when trying to join data sets
 # Out county variable is a "double" or numeric value
 # but our state variable is a character value!
 
@@ -397,13 +397,11 @@ counties <- counties %>%
 
 
 
-# Finally it is time to run our model!!!!!
+# Finally it is time to run our model!
 mod <- lm(trump_difference ~ prop_manuf + state_gini_coef + white_pct + lesscollege_pct,
           data = counties)
 
 tidy(mod)
-
-# Someone help me interpret the results please
 
 
 
