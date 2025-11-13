@@ -3,25 +3,6 @@
 ##  Fixed Effects and Interactions  ##
 ######################################
 
-
-# First, a little example of the beauty of pipes
-# Which would you rather?
-
-# Option A
-try(come_to_live(stretch(yawn(pour(stumble(tumble(I, out_of = "bed"), to = "the kitchen"), who = "myself", unit = "cup", what = "ambition")))))
-
-# Option B
-I %>% 
-  tumble(out_of = "bed") %>% 
-  stumble(to = "the kitchen") %>% 
-  pour(who = "myself", unit = "cup", what = "ambition") %>% 
-  yawn() %>% 
-  stretch() %>% 
-  try(come_to_live())
-
-# Credit https://twitter.com/hadleywickham/status/1359852563726819332
-
-
 # Read in the packages for today
 library(tidyverse)
 library(here)
@@ -29,7 +10,7 @@ library(broom)
 library(texreg)
 
 # This lab will use the same Counties data set that we created last week
-counties <- read_csv(here("week-7", "data", "counties-clean.csv")) %>% 
+counties <- read_csv(here("week-7", "counties-clean.csv")) %>% 
   mutate(median_hh_inc = median_hh_inc / 1000)    # Let's scale this variable so it is easier to interpret
 
 
@@ -66,7 +47,7 @@ ny_va_mod <- lm(trump_difference ~ prop_manuf, data = ny_va)
 # State fixed-effects model
 ny_va_mod_fe <- lm(trump_difference ~ prop_manuf + VA, data = ny_va)
 
-# Can someone help me interpret these coefficients?
+# Can you interpret these coefficients?
 screenreg(list(ny_va_mod, ny_va_mod_fe))
 
 
@@ -82,7 +63,7 @@ ut_va %>%
   geom_smooth(method = "lm", se = F, fullrange = T, color = "darkcyan") +
   theme_minimal() 
 
-# WHAT?!
+# But...
 ut_va %>% 
   ggplot(aes(x = prop_manuf, y = trump_difference, color = state_abbrv)) +
   geom_point(alpha = 0.6, size = 3) +
@@ -110,7 +91,7 @@ counties %>%
   theme_minimal() +
   theme(text = element_text(family = "serif"))
 
-# AHHHHHH
+# Very useless plot
 counties %>% 
   ggplot(aes(x = prop_manuf, y = trump_difference, color = state_abbrv)) +
   geom_point(alpha = 0.2, size = 3) +

@@ -269,8 +269,7 @@ cbp %>%
   mutate(total_emp = sum(emp)) %>% 
   ungroup() %>%                              # Un-group for safety!
   filter(naics == "31----") %>%              # Keep only matching rows
-  mutate(prop_manuf = emp / total_emp) %>%   # Calculate proportion manufacturing per county-year
-  View()
+  mutate(prop_manuf = emp / total_emp) 
 # Notice that our filter() command subtly changed the unit of analysis
 
 # Last step: collapse the data down from county-year level to county level
@@ -395,7 +394,7 @@ counties <- counties %>%
 # Now a "one-unit-change" will correspond to a one percentage point change in our regression
 
 
-
+write_csv(counties, here("week-7", "counties-clean.csv"))
 
 # Finally it is time to run our model!
 mod <- lm(trump_difference ~ prop_manuf + state_gini_coef + white_pct + lesscollege_pct,
