@@ -11,13 +11,11 @@ library(broom)
 library(texreg)
 
 
-
-
 ######################################
 ## Using Models to Make Predictions ##
 
 # We will use the county data we've been using for the past few weeks
-counties <- read_csv(here("week-7", "data", "counties-clean.csv")) %>% 
+counties <- read_csv(here("week-7", "counties-clean.csv")) %>% 
   mutate(median_hh_inc = median_hh_inc / 1000,
          rural = if_else(ruralurban_cc >= 7, 1, 0))
 
@@ -59,7 +57,7 @@ counties %>%
 # We can still do this because the line extends forever!
 (predicted_Y <- intercept + beta_1 * 80)
 
-# There are no rules!!!!!!!
+# There are no rules!!!!!!! (thanks Bert)
 (predicted_Y <- intercept + beta_1 * 200)
 (predicted_Y <- intercept + beta_1 * -1000)
 
@@ -116,9 +114,9 @@ one_really_specific_county <- data.frame(
 
 augment(multi_mod, newdata = one_really_specific_county)
 
-# This is a hassle... and who cares about this county???
+# This is a hassle... and who cares about this county
 
-# There is a better way
+# There has to be a better way! (There is)
 
 # We can hold all other variables in the model at their medians
 # and see what happens to the predictions when we change prop_manuf
@@ -151,11 +149,9 @@ ggplot(predictions) +
   theme_minimal()
 
 # This is called a "Conditional Effects Plot"
-# In my opinion it is one of the most powerful ways to visualize the results of your model
+# In my/Bert's/and Theo's opinion it is one of the most powerful ways to visualize the results of your model
 
 # KEY POINT: Regression models are prediction machines first and foremost
-
-
 
 # Now let's try something more interesting with our predictions
 # The tidyr::crossing() function is incredibly useful for quickly making combinations of variables
@@ -222,7 +218,7 @@ prediction_data <- tibble(
 # Generate our predictions
 predictions <- augment(int_mod, newdata = prediction_data, se_fit = T, interval = "confidence")
 
-# wow amazing!
+# wheee
 ggplot(predictions) +
   aes(
     x = prop_manuf,
@@ -372,7 +368,7 @@ ggplot(simulation_frame) +
   ) +
   theme_minimal()
 
-# The variance in the lines is a nice way to visualize our uncertainty
+# nice but kills my graphics processor a bit
 
 
 
